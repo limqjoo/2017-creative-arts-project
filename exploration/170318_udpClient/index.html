@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body, #container {
+			overflow: hidden;
+		}
+	</style>
+    <script language = "javascript" type = "text/javascript">
+    var gotData = false;
+	var width, height;
+	var initialised = false;
+
+    if ("WebSocket" in window){
+        var ws = new WebSocket('ws://127.0.0.1:8080');
+        
+        ws.onopen = function(){
+            console.log('Connection open!');
+            ws.send('getData');
+        };
+
+        // Handle any errors that occur.
+        ws.onerror = function(error) {
+            console.log('WebSocket Error: ' + error);
+        };
+
+        ws.onmessage = function(event) {
+			var message = String(event.data);
+			if (message.length != 0){
+				message = message.split(',');
+				//console.log(message);
+				if (message.length > 2 && initialised){
+					display(message);
+				}else{
+					width = parseInt(message[0]);
+					height = parseInt(message[1]);
+					initialised = true;
+				}
+				ws.send('getData');
+			}
+        }
+
+        ws.onclose = function(){ 
+                  // websocket is closed.
+                  //alert("Connection is closed..."); 
+        };
+    }else{
+        // The browser doesn't support WebSocket
+        alert("WebSocket NOT supported by your Browser!");
+    }
+
+	
+	//splits string of pixel values into array
+	function splitIntoArray(str){
+		var int16 = new Int16Array(str.length/3);
+		for (var i = 0; i < str.length/3; i++){
+			int16[i] = Number(str.substring(i*3,i*3+3).trim());
+		}
+		return int16;
+	}
+    </script>
+</head>
+<body>
+    <canvas id="glCanvas" width="640" height="480">
+      Your browser doesn't appear to support the <code>&lt;canvas&gt;</code> element.
+    </canvas>
+	<script language = "javascript" type = "text/javascript">
+		var c = document.getElementById("glCanvas");
+		var ctx = c.getContext("2d");
+
+		function display(msg){
+			//console.log('displaying...');
+			var imgData = ctx.createImageData(80, 80); // width x height
+			var data = imgData.data;
+
+			var w = parseInt(msg[0]);
+			var h = parseInt(msg[1]);
+			var pixelValues = splitIntoArray(String(msg[2]));
+			//console.log(pixelValues);
+
+			// copy img byte-per-byte into our ImageData
+			for (var i = 0; i < pixelValues.length/3; i++) { //3-channel to 4-channel
+				data[i*4] = pixelValues[i*3];
+				data[i*4+1] = pixelValues[i*3+1];
+				data[i*4+2] = pixelValues[i*3+2];
+				data[i*4+3] = 255;
+			}
+
+			// now we can draw our imagedata onto the canvas
+			ctx.putImageData(imgData, 80*w, 80*h);
+		}
+	</script>
+  </body>
+
+
+	<!--<div id="container"></div>
+	<script id="vertexShader" type="x-shader/x-vertex">
+		void main() { gl_Position = vec4( position, 1.0 ); }
+	</script>
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		//============================================================
+		//PUT YOUR GLSL CODE HERE
+		//============================================================
+
+        
+		//============================================================
+		//END OF GLSL CODE
+		//============================================================
+	</script>
+	
+        <script>
+		//change the resolution here. 1 is highest
+		var pixel_resolution = 5;
+		var container, stats;
+		var camera, scene, renderer;
+		var uniforms;
+		init();
+		animate();
+		function init() {
+			container = document.getElementById('container');
+			camera = new THREE.Camera();
+			camera.position.z = 1;
+			scene = new THREE.Scene();
+			var geometry = new THREE.PlaneBufferGeometry(2, 2);
+			uniforms = { time: { type: 'f', value: 1.0 }, resolution: { type: 'v2', value: new THREE.Vector2() } };
+			var material = new THREE.ShaderMaterial({ uniforms: uniforms, vertexShader: document.getElementById('vertexShader').textContent, fragmentShader: document.getElementById('fragmentShader').textContent });
+			var mesh = new THREE.Mesh(geometry, material);
+			scene.add(mesh);
+			renderer = new THREE.WebGLRenderer();
+			//Hack here to change resolution 
+			renderer.setPixelRatio(window.devicePixelRatio / pixel_resolution);
+			container.appendChild(renderer.domElement);
+			onWindowResize();
+			window.addEventListener('resize', onWindowResize, false);
+            window.addEventListener('mousedown', onMouseDown, false);
+            window.addEventListener('mouseup', onMouseUp, false);
+		}
+		function onWindowResize(event) {
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			uniforms.resolution.value.x = renderer.domElement.width;
+			uniforms.resolution.value.y = renderer.domElement.height;
+
+		}
+		function onMouseDown( event ) {
+        	uniforms.mouse.value.x = 2 * ( event.clientX / window.innerWidth );
+ 	        uniforms.mouse.value.y = 2 * ( 1-(event.clientY) / window.innerHeight
+ 	        );
+        }
+		function animate() {
+			requestAnimationFrame(animate);
+			render();
+		}
+		function render() {
+			uniforms.time.value += 0.01;
+			renderer.render(scene, camera);
+		}
+	</script>
+   
+</body> -->
+</html>

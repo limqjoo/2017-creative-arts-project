@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Like Wind, Like Water</title>
+      <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+      <script type="text/javascript" src="js/jquery.min.js"></script>
+      <script type="text/javascript" src="js/socket.io.js"></script>
+      <script type="text/javascript" src="js/client.js"></script>
+      <script type="text/javascript" src="js/screen.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/index.css" />
+      <!--<script type="text/javascript" src="js/shader.js"></script>
+      <script id="2d-vertex-shader" type="notjs" src="shaders/shader.vert"></script>
+      <script id="2d-fragment-shader" type="notjs" src="shaders/shader.frag"></script>-->
+      <script src="js/webgl-utils.js"></script>
+            <!-- vertex shader -->
+      <script id="2d-vertex-shader" type="x-shader/x-vertex">
+        attribute vec2 a_texCoord;
+        attribute vec2 a_position;
+
+        uniform vec2 u_resolution;
+
+        varying vec2 v_texCoord;
+
+        void main() {
+          // convert the rectangle from pixels to 0.0 to 1.0
+          vec2 zeroToOne = a_position / u_resolution;
+
+          // convert from 0->1 to 0->2
+          vec2 zeroToTwo = zeroToOne * 2.0;
+
+          // convert from 0->2 to -1->+1 (clipspace)
+          vec2 clipSpace = zeroToTwo - 1.0;
+
+          gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
+          // pass the texCoord to the fragment shader
+          // The GPU will interpolate this value between points
+          v_texCoord = a_texCoord;
+        }
+      </script>
+      <script id="2d-fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        
+        // our texture
+        uniform sampler2D u_image;
+        
+        // the texCoords passed in from the vertex shader.
+        varying vec2 v_texCoord;
+        
+        void main() {
+          // Look up a color from the texture.
+          gl_FragColor = texture2D(u_image, v_texCoord);
+        }
+      </script>
+      <script>
+        $(document).ready(function() {
+          $(function() {
+            var canvas = $('#screen');
+            var screen = new Screen(canvas[0]);
+            var client = new Client(screen);
+            $("#screen-wrapper").hide();
+            $("#form-wrapper").show();
+            $("#login-btn").click(function() {
+              if ($('#password').val().length>0){
+                //console.log($('#host').val()+":"+parseInt($('#port').val(), 10)+" "+$('#password').val());
+                client.connect({
+                  host: $('#host').val(),
+                  port: parseInt($('#port').val(), 10),
+                  password: $('#password').val()
+                });
+              } else {
+                console.log("Password missing.");
+              }
+            });
+
+            $( "#disconnect-btn" ).click(function() {
+              client.disconnect();
+              $("#screen-wrapper").hide();
+              $("#form-wrapper").show();
+            });
+
+            $(window).on('resize', function(){
+              client.scaleScreen();
+            });
+          });
+        });
+      </script>
+    </head>
+    <body>
+        <div class="form-wrapper" id="form-wrapper">
+            <form class="form-horizontal" action="post" onsubmit="return false">
+              <div class="control-group">
+                <label class="control-label" for="host">Host:</label>
+                <div class="controls">
+                  <input type="text" id="host" name="host" value="" /><br />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="port">Port:</label>
+                <div class="controls">
+                  <input type="text" id="port" name="port" value="" /><br />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="password">Password:</label>
+                <div class="controls">
+                  <input type="password" id="password" name="password" value="" /><br />
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <button class="btn" id="login-btn">Log in</button>
+                </div>
+              </div>
+            </form>
+        </div>
+        <p id="words">Be the force that transforms someone else's life.</p>
+        <canvas id="screen" style="transform-origin: 0 0;">
+        </canvas>
+        <!--<button id="disconnect-btn">Disconnect</button>-->
+    </body>
+</html>

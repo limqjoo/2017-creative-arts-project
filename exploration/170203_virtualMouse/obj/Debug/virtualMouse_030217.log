@@ -1,0 +1,18 @@
+﻿  main.cpp
+  ofApp1.cpp
+  ofApp2.cpp
+  vMouse.cpp
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\ofApp2.h(5): error C2504: 'ofBaseApp': base class undefined (compiling source file src\ofApp1.cpp)
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\ofApp2.h(21): error C2061: syntax error: identifier 'ofDragInfo' (compiling source file src\ofApp1.cpp)
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\ofApp2.h(22): error C2061: syntax error: identifier 'ofMessage' (compiling source file src\ofApp1.cpp)
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\vMouse.h(13): error C2061: syntax error: identifier 'ofApp2' (compiling source file src\ofApp2.cpp)
+D:\Applications\of_v0.9.7_vs_release\libs\openFrameworks\ofMain.h(4): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int (compiling source file src\vMouse.cpp)
+D:\Applications\of_v0.9.7_vs_release\libs\openFrameworks\ofMain.h(4): error C2146: syntax error: missing ';' before identifier 'vM' (compiling source file src\vMouse.cpp)
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\ofApp2.h(5): error C2504: 'ofBaseApp': base class undefined (compiling source file src\main.cpp)
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\ofApp2.h(21): error C2061: syntax error: identifier 'ofDragInfo' (compiling source file src\main.cpp)
+d:\_godetia\y3\cap\gitlab\exploration\code\virtualmouse_030217\src\ofApp2.h(22): error C2061: syntax error: identifier 'ofMessage' (compiling source file src\main.cpp)
+src\vMouse.cpp(17): error C2276: '&': illegal operation on bound member function expression
+src\vMouse.cpp(22): error C2276: '&': illegal operation on bound member function expression
+src\main.cpp(24): error C2665: 'ofRunApp': none of the 3 overloads could convert all the argument types
+  D:\Applications\of_v0.9.7_vs_release\libs\openFrameworks\app\ofAppRunner.h(52): note: could be 'void ofRunApp(std::shared_ptr<ofAppBaseWindow>,std::shared_ptr<ofBaseApp>)' (compiling source file src\main.cpp)
+  src\main.cpp(24): note: while trying to match the argument list '(std::shared_ptr<ofAppBaseWindow>, std::shared_ptr<ofApp2>)'
