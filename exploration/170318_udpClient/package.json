@@ -4,6 +4,6 @@
   "dependencies": {
     "dgram": "^1.0.1",
     "fs": "0.0.1-security",
-    "ws": "^2.2.1"
+    "ws": "^7.3.1"
   }
 }
