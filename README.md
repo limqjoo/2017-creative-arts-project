@@ -2,6 +2,7 @@
 
 This repository contains the code for an art installation created as the final project for the BSc Digital Arts Computing at Goldsmiths University.
 
+
 ## About
 *Like Wind, Like Water (2017)* instigates a reconsideration of the veracity of digitally-acquired information and knowledge in our everyday lives. The information is often presented through familiar and beguiling user interfaces of the digital platform.
 
@@ -9,6 +10,7 @@ The audience is presented with two different ways to interact with the work - vi
 
 By disrupting the digital interface, Like Wind, Like Water intends to disturb our belief in the authenticity of the information through the familiar and beguiling user interfaces of the digital platform.
 The project explores the interaction between two screens and one computer, providing a unique and immersive experience for users.
+
 
 ## Technical Overview
 
@@ -49,28 +51,13 @@ The project relies on the following dependencies:
 
 * ofxNetwork: Allows the oF app to receive and send data to the NodeJs server.
 
-## Getting Started
-To set up and run the project, follow these steps:
-
-1. Clone the repository to your local machine.
-
-2. Install the required dependencies (listed above).
-
-3. Configure the VNC server settings and ensure compatibility with the adapted web client.
-
-4. Build and run the oF app on the desktop computer.
-
-5. Open the web client on the tablet to view the live-streamed and distorted desktop image.
-
-## Acknowledgments
-This project was developed as part of the BSc Digital Arts Computing program. Special thanks to [Mick] for valuable suggestions and insights throughout the development process.
-
-## License
-This project is licensed under the MIT License. Feel free to explore, modify, and share your contributions.
-
-------
 
 ## Further Reading
 
-(Original Project write-up)[https://www.doc.gold.ac.uk/creativeprojects/index.php/2017/05/11/like-wind-like-water/]
-(Work-in-progress blog posts)[https://lqjoo.wordpress.com/category/cap/]
+[Original Project write-up](https://www.doc.gold.ac.uk/creativeprojects/index.php/2017/05/11/like-wind-like-water/)
+
+[Work-in-progress blog posts](https://lqjoo.wordpress.com/category/cap/)
+
+
+## License
+This project is licensed under the MIT License.
